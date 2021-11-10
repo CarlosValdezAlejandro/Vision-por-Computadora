@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# In[1]:
+
+
+#!/usr/bin/env python
+# coding: utf-8
+
 # Trabajo Práctico N°5
 
 # In[1]:
@@ -17,22 +23,23 @@ blue = (255,0,0); green = (0,255,0); red = (0,0,255)
 drawing=False
 xybutton_down = -1, -1
 
-def translate(image, angle, x_t, y_t):
+def similarity(image, angle, x_t, y_t, center=None, scale=1.0):
     (h, w) = image.shape[:2]
     angle = np.radians(angle)
-    M = np.float32([[np.cos(angle), np.sin(angle), x_t],
-                    [-np.sin(angle), np.cos(angle), y_t]])
+    M = np.float32([[scale*np.cos(angle), scale*np.sin(angle), x_t],
+                    [scale*-np.sin(angle), scale*np.cos(angle), y_t]])
 
-
+    
     translate = cv2.warpAffine(image, M, (w, h))
     return translate
 
 
 def input_values():
-    global angle, x, y
+    global angle, x, y, scale
     angle = int(input('ingrese angulo de traslación: '))
-    x =  int(input('ingrese traslación en x'))
-    y =  int(input('ingrese traslación en y'))
+    x =  int(input('ingrese traslación en x: '))
+    y =  int(input('ingrese traslación en y: '))
+    scale=int(input('ingrese valor de escala: '))
     
     
     
@@ -69,11 +76,11 @@ while(1):
     k = cv2.waitKey(1) & 0xFF
     if k == ord('r'):
         read_img()
-    elif k == ord('e'):
+    elif k == ord('s'):
         img_copy = img_copy[yi:yf, xi:xf]
-        img_translate = translate(img_copy, angle, x, y)
-        cv2.imwrite('lenna_croped&translated.png', img_translate)
-        cv2.imshow('imagen guardada', img_translate)
+        img_translate = similarity(img_copy, angle, x, y, None , scale)
+        cv2.imwrite('lenna_crop_trans_sca.png', img_similarity)
+        cv2.imshow('imagen guardada', img_similarity)
         
         
     elif k == ord('q'):
