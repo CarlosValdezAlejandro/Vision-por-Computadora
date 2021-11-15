@@ -12,8 +12,8 @@ import random
 def adivinar(intentos):
     
     #numero aleatorio 0-100
-    num = random.randint(0, 1)
-    i=1
+    num = random.randint(0, 100)
+    i=0
     resultado = False
     
     while(i <= intentos):

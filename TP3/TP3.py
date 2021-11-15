@@ -1,13 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# Trabajo Práctico N°3
-
-# In[4]:
-
-
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
 
 
 import cv2 as cv

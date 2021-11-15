@@ -3,7 +3,7 @@
 
 # Trabajo Práctico N°7
 
-# In[14]:
+# In[6]:
 
 
 #!/usr/bin/env python
@@ -20,7 +20,7 @@ points = []
 def affine(image, src_coord, dst_coord):
     (h, w) = image.shape[:2]
     M = cv2.getAffineTransform(src_coord, dst_coord)
-    affine = cv2.warpAffine(image, M, (w, h)) #borderValue = BORDER_TRANSPARENT
+    affine = cv2.warpAffine(image, M, (w, h))
     
     return affine
 
@@ -72,30 +72,35 @@ cv2.namedWindow('image')
 while(1):
     cv2.imshow('image', img)
     k = cv2.waitKey(1) & 0xFF
+    
     if k == ord('r'):
         read_img()
     elif k == ord('a'):
+        cv2.destroyAllWindows()
         img_point = img_copy
         src_coord = np.float32([[0,0],[w_2,0],[0,h_2]])
         dst_coord = selected_points(img_point)
         
         img_affined = affine(img2_copy, src_coord, dst_coord)
-        cv2.imshow('resultado', img_affined)
+        #cv2.imshow('resultado', img_affined)
         
         img_affined_gray = cv2.cvtColor(img_affined, cv2.COLOR_BGR2GRAY)
         
         
         #Lo hago con gris porque sino da error
         masked = cv2.bitwise_and(img, img, mask=img_affined_gray)
-        cv2.imshow('Masked', masked)
+        #cv2.imshow('Masked', masked)
         
         inv_masked = cv2.bitwise_xor( masked,img)
-        cv2.imshow('Masked_n', inv_masked)
+        #cv2.imshow('Masked_n', inv_masked)
         
         
         img_n = cv2.add(inv_masked, img_affined)
         cv2.imshow('add', img_n)
         
+    elif k == ord('g'):
+        cv2.imwrite('imagen transformada.png', img_n)
+        break
         
     elif k == ord('q'):
         break
