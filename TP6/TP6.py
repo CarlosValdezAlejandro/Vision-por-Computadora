@@ -1,19 +1,15 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# Trabajo Práctico N°6
+
 # In[1]:
 
 
 #!/usr/bin/env python
 # coding: utf-8
 
-# Trabajo Práctico N°5
-
-# In[1]:
-
-
-#! /usr/bin/env python
-# -*- coding: utf-8 -*-
+# Trabajo Práctico N°6
 
 
 import numpy as np
@@ -23,7 +19,7 @@ blue = (255,0,0); green = (0,255,0); red = (0,0,255)
 drawing=False
 xybutton_down = -1, -1
 
-def similarity(image, angle, x_t, y_t, center=None, scale=1.0):
+def translate(image, angle, x_t, y_t, center=None, scale=1.0):
     (h, w) = image.shape[:2]
     angle = np.radians(angle)
     M = np.float32([[scale*np.cos(angle), scale*np.sin(angle), x_t],
@@ -36,23 +32,23 @@ def similarity(image, angle, x_t, y_t, center=None, scale=1.0):
 
 def input_values():
     global angle, x, y, scale
-    angle = int(input('ingrese angulo de traslación: '))
+    angle = float(input('ingrese angulo de traslación: '))
     x =  int(input('ingrese traslación en x: '))
     y =  int(input('ingrese traslación en y: '))
-    scale=int(input('ingrese valor de escala: '))
+    scale= float(input('ingrese valor de escala: '))
     
     
     
 def dibuja(event, x, y, flags, param):
-    global xybutton_down, drawing, mode, xf, yf, xi, yi
+    global drawing, mode, xf, yf, xi, yi
     if event == cv2.EVENT_LBUTTONDOWN:
         drawing = True
         xi, yi = x, y
-        xybutton_down = x, y
+        
     elif event == cv2.EVENT_MOUSEMOVE:
         if drawing is True:
-            img = img_copy.copy()
-            cv2.rectangle(img, xybutton_down, (x,y), blue, 2)
+            img[:] = img_copy[:]
+            cv2.rectangle(img, (xi, yi), (x,y), blue, 2)
             xf, yf = x, y
         
     elif event == cv2.EVENT_LBUTTONUP:
@@ -76,15 +72,21 @@ while(1):
     k = cv2.waitKey(1) & 0xFF
     if k == ord('r'):
         read_img()
-    elif k == ord('s'):
+    elif k == ord('g'):
         img_copy = img_copy[yi:yf, xi:xf]
-        img_translate = similarity(img_copy, angle, x, y, None , scale)
-        cv2.imwrite('lenna_crop_trans_sca.png', img_similarity)
-        cv2.imshow('imagen guardada', img_similarity)
+        img_translate = translate(img_copy, angle, x, y, None , scale)
+        cv2.imwrite('lenna_croped&translated.png', img_translate)
+        cv2.imshow('imagen guardada', img_translate)
         
         
     elif k == ord('q'):
         break
 
 cv2.destroyAllWindows()
+
+
+# In[ ]:
+
+
+
 

@@ -3,7 +3,7 @@
 
 # Trabajo Práctico N°9
 
-# In[1]:
+# In[12]:
 
 
 #!/usr/bin/env python
@@ -21,7 +21,7 @@ xybutton_down = 0, 0
 points = []
 xf, yf, xi, yi = 0,0,0,0
 
-name_image = 'Raid.jpg'
+name_image = 'fachada.jpg'
         
 #f linea calibrar
 def linea(event, x, y, flags, param):
@@ -79,15 +79,16 @@ def mouse_points(event, x, y, flags, param):
     if event == cv2.EVENT_LBUTTONDOWN:
             points.append([x, y])
             cv2.circle(img_point, (x, y), 3, red, -1)
+            
     
             
 #f para seleccion de puntos y obtener coordenadas para rectificar
 def selected_points(image):
-    cv2.namedWindow('Selección de cuatro (4) puntos')
-    cv2.setMouseCallback('Selección de cuatro (4) puntos', mouse_points)
+    cv2.namedWindow('Seleccion de cuatro puntos')
+    cv2.setMouseCallback('Seleccion de cuatro puntos', mouse_points)
     
     while(1):
-        cv2.imshow('Selección de cuatro (4) puntos', image)
+        cv2.imshow('Seleccion de cuatro puntos', image)
         k = cv2.waitKey(1)
         if len(points) == 4:
             break
@@ -102,19 +103,21 @@ def read_img(image):
     global img, img_copy, h,w, new_h, new_w
     img = cv2.imread(image, cv2.IMREAD_COLOR)
     h,w = img.shape[:2]
-    if h > 1080:
+    img_copy = img.copy()
+"""    
+    if h > 1079:
         scale_h = 768/h
         #scale_w = 1920/w
         new_h, new_w = int(scale_h*h), int(scale_h*w)
         img = cv2.resize(img, (new_h, new_w))
         h,w = img.shape[:2]
-    elif w>1920:
+    elif w>1919:
         scale_w = 1366/w
         new_h, new_w = int(scale_w*h), int(scale_w*w)
         img = cv2.resize(img, (new_h, new_w))
         h,w = img.shape[:2]
+""" 
         
-    img_copy = img.copy()
 
     
 
@@ -122,11 +125,13 @@ read_img(name_image)
 
 while(1):
     
-    print("Seleccione 4 puntos para rectificar")
+    #print("Seleccione 4 puntos para rectificar")
     k = cv2.waitKey(1) & 0xFF
     img_point = img_copy
     dst_coord = np.float32([[0,0],[w,0],[w,h],[0,h]])
-    src_coord = selected_points(img_point)
+    #src_coord = selected_points(img_point)
+    src_coord = np.float32([[134 , 149],[1002 , 89],[997 , 729],[145 , 630]])
+    print(src_coord)
     img_copy, rectified_flag = perspective(img_copy, src_coord, dst_coord)
     cv2.imshow('Image Rectified',img_copy)
     cv2.imwrite('rectified.png', img_copy)
@@ -186,6 +191,11 @@ while(1):
 ##
 
 cv2.destroyAllWindows()
+
+#[[ 134.  149.]
+# [1002.   89.]
+# [ 997.  729.]
+# [ 145.  630.]]
 
 
 # In[ ]:

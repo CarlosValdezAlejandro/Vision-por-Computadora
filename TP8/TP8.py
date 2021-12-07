@@ -3,7 +3,7 @@
 
 # Trabajo Práctico N° 8
 
-# In[18]:
+# In[1]:
 
 
 #!/usr/bin/env python
@@ -15,10 +15,11 @@ import cv2
 
 
 red = (0,0,255)
-
 drawing=False
 xybutton_down = -1, -1
 points = []
+
+name_image = 'Raid.jpg'
 
 def perspective(image, src_coord, dst_coord):
     (h, w) = image.shape[:2]
@@ -36,11 +37,11 @@ def mouse_points(event, x, y, flags, param):
             
 
 def selected_points(image):
-    cv2.namedWindow('Selección de tres (4) puntos')
-    cv2.setMouseCallback('Selección de tres (4) puntos', mouse_points)
+    cv2.namedWindow('Seleccion de cuatro puntos')
+    cv2.setMouseCallback('Seleccion de cuatro puntos', mouse_points)
     
     while(1):
-        cv2.imshow('Selección de tres (4) puntos', image)
+        cv2.imshow('Seleccion de cuatro puntos', image)
         k = cv2.waitKey(1)
         if len(points) == 4:
             break
@@ -51,9 +52,9 @@ def selected_points(image):
 
         
 
-def read_img():
+def read_img(image):
     global img, img_copy, h,w, new_h, new_w
-    img = cv2.imread('Raid.jpg', cv2.IMREAD_COLOR)
+    img = cv2.imread(image, cv2.IMREAD_COLOR)
     h,w = img.shape[:2]
     if h > 1080:
         scale_h = 768/h
@@ -70,8 +71,8 @@ def read_img():
     img_copy = img.copy()
     
     
-    
-read_img()
+
+read_img(name_image)
 
 while(1):
     cv2.imshow('image', img)

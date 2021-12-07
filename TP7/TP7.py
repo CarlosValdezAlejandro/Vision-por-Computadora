@@ -3,7 +3,7 @@
 
 # Trabajo Práctico N°7
 
-# In[6]:
+# In[4]:
 
 
 #!/usr/bin/env python
@@ -34,11 +34,11 @@ def mouse_points(event, x, y, flags, param):
             
 
 def selected_points(image):
-    cv2.namedWindow('Selección de tres (3) puntos')
-    cv2.setMouseCallback('Selección de tres (3) puntos', mouse_points)
+    cv2.namedWindow('Seleccion de tres puntos')
+    cv2.setMouseCallback('Seleccion de tres puntos', mouse_points)
     
     while(1):
-        cv2.imshow('Selección de tres (3) puntos', image)
+        cv2.imshow('Seleccion de tres puntos', image)
         k = cv2.waitKey(1)
         if len(points) == 3:
             break
@@ -63,7 +63,7 @@ def read_img():
     
     
 read_img()
-img_new = np.zeros((h,w,3), np.uint8)
+#img_new = np.zeros((h,w,3), np.uint8)
 
 
 
